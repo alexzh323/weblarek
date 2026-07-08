@@ -1,61 +1,57 @@
-import { TPayment, IBuyer } from "../../types";
-
-export type TOrderValidationResult = {
-      payment?: string;  
-      address?: string;
-      email?: string;
-      phone?: string;
-    }
+import { TPayment, IBuyer, IOrderValidationResult } from "../../types";
 
  export class OrderData {
-  protected _payment: TPayment;
-  protected _email: string;
-  protected _phone: string;
-  protected _address: string;
+  protected payment: TPayment | null;
+  protected email: string;
+  protected phone: string;
+  protected address: string;
 
   constructor(){
-    this._payment = "";
-    this._email = "";
-    this._phone ="";
-    this._address ="";
+    this.payment = null;
+    this.email = "";
+    this.phone ="";
+    this.address ="";
   }
+
   setField<K extends keyof IBuyer>(field: K, value: IBuyer[K]): void {
     switch (field) {
       case "payment":
-        this._payment = value as TPayment;
+        this.payment = value as TPayment | null;
         break;
       case "email":
-        this._email = value  as string;
+        this.email = value  as string;
         break;
       case "phone":
-        this._phone = value as string;
+        this.phone = value as string;
         break;
       case "address":
-        this._address  = value as string;
+        this.address  = value as string;
         break;
     }
   }
+
   getFields(): IBuyer {
     return {
-    payment: this._payment,
-    email: this._email,
-    phone: this._phone,
-    address: this._address
+    payment: this.payment,
+    email: this.email,
+    phone: this.phone,
+    address: this.address
     }
   }
+
   clearFields(): void {
-    this._payment = "";
-    this._email = "";
-    this._phone ="";
-    this._address ="";
+    this.payment = null;
+    this.email = "";
+    this.phone ="";
+    this.address ="";
   }
   
-  getInvalidFields(): TOrderValidationResult {
-    let obj: TOrderValidationResult = {}
-      if(this._payment === "") {obj.payment = "Не выбран вид оплаты"}
-      if(this._email === "") {obj.email = "Укажите емэйл"}
-      if(this._phone === "") {obj.phone = "Укажите контактный номер"}
-      if(this._address === "") {obj.address = "Укажите адрес доставки"}
+  getInvalidFields(): IOrderValidationResult {
+    const obj: IOrderValidationResult = {}
+      if(this.payment === null) {obj.payment = "Не выбран вид оплаты";}
+      if(!this.email.trim()) {obj.email = "Укажите емэйл";}
+      if(!this.phone.trim()) {obj.phone = "Укажите контактный номер";}
+      if(!this.address.trim()) {obj.address = "Укажите адрес доставки";}
     return obj;
   }
 }

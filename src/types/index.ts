@@ -14,26 +14,33 @@ export interface IProduct {
   price: number | null;
 }
 
-export type TPayment = 'card' | 'cash' | '';
+export type TPayment = 'card' | 'cash';
 
 export interface IBuyer {
-  payment: TPayment;
+  payment: TPayment | null;
   email: string;       
   phone: string;
   address: string;
 }
 
-export type IProductListResponse = {
+export interface IOrderValidationResult {
+  payment?: string;  
+  address?: string;
+  email?: string;
+  phone?: string;
+}
+
+export interface IProductListResponse {
   total: number;
   items: IProduct[]; 
 }
 
-export type IOrderRequest = IBuyer & {
+export interface IOrderRequest extends IBuyer {
   total: number;
   items: string[]; 
 }
 
-export type IOrderResponse ={
+export interface IOrderResponse {
   id: string;
   total: number;
 }

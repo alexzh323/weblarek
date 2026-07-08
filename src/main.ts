@@ -7,9 +7,9 @@ import { Api } from './components/base/Api';
 import { LarekApi } from './components/Communication/LarekApi';
 import { API_URL } from './utils/constants'
 
-let testProductData = new ProductData();
-let testCartData = new CartData();
-let testOrderData = new OrderData();
+const testProductData = new ProductData();
+const testCartData = new CartData();
+const testOrderData = new OrderData();
 
 console.log("ТОВАРЫ")
 console.log(`все товары(пусто):`, testProductData.getProducts());
@@ -52,9 +52,9 @@ testOrderData.clearFields();
 console.log(`незаполненные поля:`, testOrderData.getInvalidFields());
 
 console.log("СЕРВЕР");
-let testApi = new Api(API_URL);
+const testApi = new Api(API_URL);
 console.log(`Api:`, testApi);
-let testLarekApi = new LarekApi(testApi);
+const testLarekApi = new LarekApi(testApi);
 testLarekApi.getProductList()
 .then((res) => {
   testProductData.setProducts(res.items)

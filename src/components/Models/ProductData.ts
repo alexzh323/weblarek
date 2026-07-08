@@ -1,27 +1,31 @@
 import { IProduct } from "../../types"
 
 export class ProductData  {
-  protected _products: IProduct[];
-  protected _currentProduct: IProduct | null;
+  protected products: IProduct[];
+  protected currentProduct: IProduct | null;
   
   constructor(){
-    this._products = [];
-    this._currentProduct = null;
+    this.products = [];
+    this.currentProduct = null;
   }
 
   setProducts(products: IProduct[]): void {
-    this._products = products;
+    this.products = products;
   }
+
   getProducts(): IProduct[]{
-    return  this._products;
+    return this.products;
   }
+
   getProduct(id: string): IProduct | null {
-    return this._products.find(product => product.id === id) || null;
+    return this.products.find(product => product.id === id) || null;
   }
+
   setCurrentProduct(product: IProduct): void {
-    this._currentProduct = product;
+    this.currentProduct = product;
   }
+
   getCurrentProduct(): IProduct | null {
-    return this._currentProduct;
+    return this.currentProduct;
   }
 }

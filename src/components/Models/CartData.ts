@@ -2,38 +2,40 @@ import { IProduct } from "../../types";
 
 export class CartData {
 
-  protected _cartProducts: IProduct[];
+  protected cartProducts: IProduct[];
 
   constructor(){
-    this._cartProducts = [];
+    this.cartProducts = [];
   }
 
   getCartProducts(): IProduct[] {
-    return this._cartProducts;
+    return this.cartProducts;
   }
+
   addProduct(product: IProduct): void {
-    this._cartProducts.push(product);
+    this.cartProducts.push(product);
   }
+
   removeProduct(product: IProduct): void {
-    this._cartProducts = this._cartProducts.filter(item => item !== product);
+    this.cartProducts = this.cartProducts.filter(item => item !== product);
   }
+
   clearCart(): void {
-    this._cartProducts = [];
+    this.cartProducts = [];
   }
+
   getTotalPrice(): number {
-    return this._cartProducts.reduce((acc: number, item: IProduct) => {
-      if(item.price){acc += item.price};
+    return this.cartProducts.reduce((acc: number, item: IProduct) => {
+      if(item.price){acc += item.price;}
       return acc;
     }, 0);
   }
+
   getTotalNumber(): number {
-    return this._cartProducts.length;
+    return this.cartProducts.length;
   }
+
   checkCartProduct(id: string): boolean {
-    if(this._cartProducts.find(item => item.id === id)) {
-      return true;
-    } else{
-      return false;
-    }
+    return this.cartProducts.some(item => item.id === id)
   }
 }
