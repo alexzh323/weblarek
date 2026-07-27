@@ -1,7 +1,9 @@
 import { IApi, IProductListResponse, IOrderRequest, IOrderResponse } from '../../types';
 
 export class LarekApi {
+  
   protected api: IApi;
+  
   constructor(api: IApi) {
     this.api  = api;
   }
