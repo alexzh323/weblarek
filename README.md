@@ -240,11 +240,18 @@ interface ICardActions {
 }
 ```
 
+#### type CategoryKey
+Глобальный тип, описывающий набор  ключей для категорий товаров, извлечённых напрямую из объекта констант приложения. Необходим для классов отображения семtйства `Card`
+
+```typescript
+type CategoryKey = keyof typeof categoryMap
+```
+
 #### Класс Header 
 Класс является производным от класса `Component` и отвечает за отображение шапки сайта. Он управляет кнопкой корзины и счётчиком количества товаров. 
 
 Конструктор: 
- `constructor(container: HTMLElement, protected events: IEvents)` - принимает корневой DOM-элемент хедера (в котором ищет дочерние элементы для заполнения полей класса) и экземпляр брокера событий для отправки сигналов в Презентер. В конструкторе устанавливается слушатель клика на кнопку корзины. 
+`constructor(container: HTMLElement, protected events: IEvents)` - принимает корневой DOM-элемент хедера (в котором ищет дочерние элементы для заполнения полей класса) и экземпляр брокера событий для отправки сигналов в Презентер. В конструкторе устанавливается слушатель клика на кнопку корзины. 
 
 Поля класса: 
 `protected counterElement: HTMLElement` - элемент счётчика товаров. `protected basketButton: HTMLButtonElement` - кнопка открытия корзины. 
@@ -340,11 +347,8 @@ interface IModal {
 
 Вспомогательные интерфейсы для дженерика: 
 ```typescript 
-interface ICard 
-{ title: string; 
-  price: number | null
-}
- ```
+type ICard = Pick<IProduct, 'title' | 'price' >;
+```
 
 #### Класс CardCatalog
 Класс является производным от класса `Card` и служит для отображения карточки в списке на главной странице. Также обрабатывает событие клика на карточку для последующей передачи презентеру.
@@ -362,10 +366,7 @@ interface ICard
 
 Вспомогательные интерфейсы для дженерика и событий: 
 ```typescript 
-interface ICardCatalog extends ICard { 
-  category: string; 
-  image: string; 
-} 
+type ICardCatalog = Pick<IProduct, 'title' | 'price' | 'category' | 'image'>;
 ```
 
 #### Класс CardPreview
@@ -375,10 +376,10 @@ interface ICardCatalog extends ICard {
 `constructor(container: HTMLElement, actions?: ICardActions)`- принимает корневой элемент темплейта превью карточки и необязательный объект с обработчиками событий. Вешает слушатель клика на кнопку добавления товара в корзину для вызова переданного метода `onClick`.
 
 Поля класса:
-`protected categoryElement: HTMLElement ` элемент для отображения категории товара.
-`protected imageElement: HTMLImageElement `- элемент для отображения изображения товара.
-`protected textElement: HTMLElement `- элемент для отображения полного описания товара.
-`protected cardButtonElement: HTMLButtonElement ` - кнопка добавления товара в корзину.
+`protected categoryElement: HTMLElement` элемент для отображения категории товара.
+`protected imageElement: HTMLImageElement`- элемент для отображения изображения товара.
+`protected textElement: HTMLElement`- элемент для отображения полного описания товара.
+`protected cardButtonElement: HTMLButtonElement` - кнопка добавления товара в корзину.
 
 
 Методы класса:
@@ -390,12 +391,7 @@ interface ICardCatalog extends ICard {
 
 Вспомогательные интерфейсы для дженерика и событий: 
 ```typescript 
-interface ICardPreview extends ICard { 
-  category: string; 
-  image: string; 
-  text: string
-  disabled?: boolean
-} 
+type ICardPreview = Pick<IProduct, 'description'| 'title' | 'price' | 'category' | 'image'>
 ```
 
 #### Класс CardBasket
@@ -405,8 +401,8 @@ interface ICardPreview extends ICard {
 `constructor(container: HTMLElement, actions?: ICardActions)`- принимает корневой элемент темплейта карточки в корзине и необязательный объект с обработчиками событий. Вешает слушатель клика на кнопку удаления товара из корзины для вызова переданного метода `onClick`.
 
 Поля класса:
-`protected basketItemIndex: HTMLElement ` элемент для отображения порядкового номера товара в корзине.
-`protected basketDeleteItemButtonElement: HTMLButtonElement ` - кнопка удаления товара из корзины.
+`protected basketItemIndex: HTMLElement` элемент для отображения порядкового номера товара в корзине.
+`protected basketDeleteItemButtonElement: HTMLButtonElement` - кнопка удаления товара из корзины.
 
 
 Методы класса:
@@ -448,6 +444,7 @@ interface IFormState {
 `constructor(container: HTMLFormElement, events: IEvents)` - принимает элемент формы из темплейта и экземпляр брокера событий. Находит уникальные кнопки выбора оплаты и инпут адреса. Устанавливает текст кнопки отправки (`submitButton`) в значение `Далее`. Навешивает слушатели клика на кнопки выбора оплаты для отправки сигналов в Презентер.
 
 Поля класса:
+`protected addressField: HTMLInputElement` - поле формы для ввода адреса.
 `protected cardButton: HTMLButtonElement` - кнопка выбора оплаты картой.
 `protected cashButton: HTMLButtonElement` - кнопка выбора оплаты наличными при получении.
 
@@ -465,6 +462,10 @@ interface IOrderForm extends IFormState {
 
 #### Класс ContactsForm
 Класс является производным от класса `Form` и отвечает за отображение второго шага оформления заказа: ввода контактных данных покупателя (Email и телефона).
+
+Поля класса:
+`protected emailField: HTMLInputElement` - поле формы для ввода адреса электронной почты.
+`protected phoneField: HTMLInputElement` - поле формы для ввода контактного номера.
 
 Конструктор:
 `constructor(container: HTMLFormElement, events: IEvents)` - принимает элемент формы из темплейта и экземпляр брокера событий. Находит инпуты электронной почты и номера телефона. Устанавливает текст кнопки отправки (`submitButton`) в значение `Оплатить`.
@@ -485,7 +486,7 @@ interface IContactsForm extends IFormState {
 Класс является производным от класса `Component` и отвечает за отображение финального окна с подтверждением успешного оформления заказа.
 
 Конструктор:
-`constructor(container: HTMLElement, protected events: IEvents)` - принимает корневой DOM-элемент темплейта успешного заказа и экземпляр брокера событий. В конструкторе устанавливается слушатель клика на кнопку «За новыми покупками!», генерирующий событие успешного завершения заказа для Презентера.
+`constructor(container: HTMLElement, protected events: IEvents` - принимает корневой DOM-элемент темплейта успешного заказа и экземпляр брокера событий. В конструкторе устанавливается слушатель клика на кнопку «За новыми покупками!», генерирующий событие успешного завершения заказа для Презентера.
 
 Поля класса:
 `protected successTotalField: HTMLElement` - элемент для отображения итоговой суммы, списанной за заказ.
@@ -511,3 +512,9 @@ interface ISuccess {
 #### События модальных окон:
 `modal:open` - генерируется компонентом `Modal` при переходе окна в активное состояние (метод `open`). Позволяет Презентеру или другим компонентам узнать о появлении поверхностного интерфейса (например, для приостановки фоновых действий).
 `modal:close` - генерируется компонентом `Modal` при закрытии окна (метод `close`). Сигнализирует Презентеру о необходимости сбросить временные состояния моделей (например, очистить выбранный товар или сбросить частично заполненные формы).
+
+#### События оформления заказа (Формы):
+`[formName].[fieldName]:change` - динамическое событие, генерируется абстрактным классом `Form` при вводе данных в любое текстовое поле. Передает в Презентер объект с измененным значением `{ value: string }`.
+`[formName]:submit` - динамическое событие, генерируется абстрактным классом `Form` при отправке формы (по клику на кнопку или нажатию Enter). Сигнализирует Презентеру об успешном заполнении текущего шага.
+`order.payment:change` - генерируется компонентом `OrderForm` при клике пользователя на любой из способов оплаты. Передает в Презентер объект с выбранным типом `{ value: TPayment }` для обновления модели данных.
+`order:success` - генерируется компонентом `Success` при клике пользователя на кнопку «За новыми покупками!» в окне успешного оформления заказа. Сигнализирует Презентеру о том, что покупка завершена, и необходимо очистить модели данных корзины и покупателя, обновить счётчик в шапке сайта и закрыть модальное окно.

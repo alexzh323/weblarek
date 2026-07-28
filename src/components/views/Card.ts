@@ -1,10 +1,8 @@
 import { ensureElement } from "../../utils/utils";
 import { Component } from "../base/Component";
+import { IProduct } from "../../types";
 
-export interface ICard 
-{ title: string; 
-  price: number | null
-}
+export type ICard = Pick<IProduct, 'title' | 'price' >;
 
 export abstract class Card<T extends ICard> extends Component<T> {
   
