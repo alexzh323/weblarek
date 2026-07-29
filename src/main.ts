@@ -1,15 +1,17 @@
 import './scss/styles.scss';
-import { CartData } from './components/Models/CartData';
+import { BasketData } from './components/Models/BasketData';
 import { ProductData } from './components/Models/ProductData';
 import { OrderData } from './components/Models/OrderData';
 import { apiProducts } from './utils/data';
 import { Api } from './components/base/Api';
 import { LarekApi } from './components/Communication/LarekApi';
 import { API_URL } from './utils/constants'
+import { EventEmitter} from './components/base/Events';
 
-const testProductData = new ProductData();
-const testCartData = new CartData();
-const testOrderData = new OrderData();
+const events = new EventEmitter
+const testProductData = new ProductData(events);
+const testCartData = new BasketData(events);
+const testOrderData = new OrderData(events);
 
 console.log("ТОВАРЫ")
 console.log(`все товары(пусто):`, testProductData.getProducts());
@@ -22,20 +24,20 @@ testProductData.setCurrentProduct(apiProducts.items[0]);
 console.log(`выбранный товар, коррекный:`, testProductData.getCurrentProduct());
 
 console.log("КОРЗИНА");
-console.log(`все товары в корзине(пусто):`, [...testCartData.getCartProducts()]);
+console.log(`все товары в корзине(пусто):`, [...testCartData.getBasketProducts()]);
 testCartData.addProduct(apiProducts.items[0]);
 testCartData.addProduct(apiProducts.items[3]);
-console.log(`все товары в корзине:`, [...testCartData.getCartProducts()]);
+console.log(`все товары в корзине:`, [...testCartData.getBasketProducts()]);
 console.log(`общая цена:`, testCartData.getTotalPrice());
 console.log(`общее колчество:`, testCartData.getTotalNumber());
-console.log(`есть ли  товар в корзне?:`, testCartData.checkCartProduct("854cef69-976d-4c2a-a18c-2aa45046c390"));
+console.log(`есть ли  товар в корзне?:`, testCartData.checkBasketProduct("854cef69-976d-4c2a-a18c-2aa45046c390"));
 testCartData.removeProduct(apiProducts.items[0]);
-console.log(`все товары в корзине:`, testCartData.getCartProducts());
+console.log(`все товары в корзине:`, testCartData.getBasketProducts());
 console.log(`общая цена:`, testCartData.getTotalPrice());
 console.log(`общее колчество:`, testCartData.getTotalNumber());
-console.log(`есть ли  товар в корзне?:`, testCartData.checkCartProduct("854cef69-976d-4c2a-a18c-2aa45046c390"));
-testCartData.clearCart();
-console.log(`все товары в корзине:`, testCartData.getCartProducts());
+console.log(`есть ли  товар в корзне?:`, testCartData.checkBasketProduct("854cef69-976d-4c2a-a18c-2aa45046c390"));
+testCartData.clearBasket();
+console.log(`все товары в корзине:`, testCartData.getBasketProducts());
 console.log(`общая цена:`, testCartData.getTotalPrice());
 console.log(`общее колчество:`, testCartData.getTotalNumber());
 

@@ -1,12 +1,14 @@
 import { TPayment, IBuyer, IOrderValidationResult } from "../../types";
+import { IEvents } from "../base/Events";
 
  export class OrderData {
+
   protected payment: TPayment | null;
   protected email: string;
   protected phone: string;
   protected address: string;
 
-  constructor(){
+  constructor(protected events: IEvents){
     this.payment = null;
     this.email = "";
     this.phone ="";
@@ -19,7 +21,7 @@ import { TPayment, IBuyer, IOrderValidationResult } from "../../types";
         this.payment = value as TPayment | null;
         break;
       case "email":
-        this.email = value  as string;
+        this.email = value as string;
         break;
       case "phone":
         this.phone = value as string;
@@ -28,6 +30,10 @@ import { TPayment, IBuyer, IOrderValidationResult } from "../../types";
         this.address  = value as string;
         break;
     }
+
+    this.events.emit(`order.${field}:changed`);
+    
+    this.events.emit('order:validate', this.getInvalidFields());
   }
 
   getFields(): IBuyer {
@@ -44,6 +50,7 @@ import { TPayment, IBuyer, IOrderValidationResult } from "../../types";
     this.email = "";
     this.phone ="";
     this.address ="";
+    this.events.emit(`order.fields:clear`);
   }
   
   getInvalidFields(): IOrderValidationResult {
