@@ -3,9 +3,10 @@ import { Card } from "./Card";
 import { IProduct, CategoryKey, ICardActions } from "../../types";
 import { categoryMap } from "../../utils/constants";
 
-type ICardPreview = Pick<IProduct, 'description'| 'title' | 'price' | 'category' | 'image'>
-
-
+export type ICardPreview = Pick<IProduct, 'description'| 'title' | 'price' | 'category' | 'image'> &{
+  disabled?: boolean;
+  buttonText?: string;
+}
 
 export class CardPreview extends Card<ICardPreview> {
 
@@ -46,5 +47,9 @@ export class CardPreview extends Card<ICardPreview> {
 
   set disabled(value: boolean) {
     this.cardButtonElement.disabled = value;
+  }
+
+  set buttonText(value: string) {
+    this.cardButtonElement.textContent = value;
   }
 }

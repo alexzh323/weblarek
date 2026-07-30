@@ -51,6 +51,7 @@ import { IEvents } from "../base/Events";
     this.phone ="";
     this.address ="";
     this.events.emit(`order.fields:clear`);
+    this.events.emit('order:validate', this.getInvalidFields());
   }
   
   getInvalidFields(): IOrderValidationResult {

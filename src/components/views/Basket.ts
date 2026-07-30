@@ -31,4 +31,8 @@ export class Basket extends Component<IBasket> {
   set total(value:number) {
     this.basketTotal.textContent = `${value} синапсов`
   }
+
+  set disabled(value: boolean) {
+    this.orderButton.disabled = value;
+  }
 }
