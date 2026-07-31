@@ -42,7 +42,7 @@ export class CardPreview extends Card<ICardPreview> {
   }
 
   set image(value:string){
-    this.setImage(this.imageElement, value, this.titleElement.textContent);
+    this.setImage(this.imageElement, value, this.title);
   }  
 
   set disabled(value: boolean) {

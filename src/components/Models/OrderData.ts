@@ -30,10 +30,8 @@ import { IEvents } from "../base/Events";
         this.address  = value as string;
         break;
     }
-
-    this.events.emit(`order.${field}:changed`);
     
-    this.events.emit('order:validate', this.getInvalidFields());
+    this.events.emit('buyer:changed');
   }
 
   getFields(): IBuyer {
@@ -50,8 +48,8 @@ import { IEvents } from "../base/Events";
     this.email = "";
     this.phone ="";
     this.address ="";
-    this.events.emit(`order.fields:clear`);
-    this.events.emit('order:validate', this.getInvalidFields());
+    
+    this.events.emit('buyer:changed');
   }
   
   getInvalidFields(): IOrderValidationResult {

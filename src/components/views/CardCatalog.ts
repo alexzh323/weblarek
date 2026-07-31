@@ -31,6 +31,6 @@ export class CardCatalog extends Card<ICardCatalog> {
   }
 
   set image(value:string){
-    this.setImage(this.imageElement, value, this.titleElement.textContent);
+    this.setImage(this.imageElement, value, this.title);
   }
 }
